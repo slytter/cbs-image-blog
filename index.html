@@ -4,7 +4,18 @@
         <title>imgur uploader</title>
         <script>
 
-            async function getImages(host) {
+
+            function createImageElement(imageUrl) {
+                const img = document.createElement('img')
+                const path = `http://localhost:3000${imageUrl}`
+                img.src = path
+                img.className = 'img'
+                const imageContainer = document.getElementById('images')
+                imageContainer.appendChild(img)
+            }
+
+
+            async function getImages() {
                 // sender vores host-name til express serveren 
                 const response = await fetch('http://localhost:3000/api/images', {
                     method: 'GET',
@@ -23,17 +34,10 @@
 
 
             async function main() {
-                const images = await getImages('localhost')
-                console.log(images)
-                // setting images to the html
-                const imageContainer = document.getElementById('images')
-                images.forEach(image => {
-                    const img = document.createElement('img')
-                    const path = `http://localhost:3000${image.url}`
-                    img.src = path
-                    img.className = 'img'
-                    imageContainer.appendChild(img)
-                })
+                // Opgave 1 a - hent alle billeder fra serveren og console.log resultatet (hint: brug getImages())
+                
+                // Opgave 1 b - opret et image element for hvert billede og append det til DOM'en (se createImageElement)
+                
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {

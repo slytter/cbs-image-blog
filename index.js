@@ -21,9 +21,10 @@ db.serialize(function() {
 
 app.post('/api/images', (req, res, next) => {
     try {
-        const datetime = new Date().getTime();
         const image = req.files.image;
         const caption = req.body.caption;
+
+        // Opgave 2 – Tilføj caption til databasen, og render den på frontenden
                 
         const pathName = '/images/' + image.name
 
@@ -66,8 +67,6 @@ app.get('/api/images', (req, res, next) => {
 
 
 
-
-// Opgave 1:
 
 // Serve index.html
 app.get('/', (req, res) => {
