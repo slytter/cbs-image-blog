@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/style">
+        <title>imgur uploader</title>
+        <script>
+
+            async function getImages(host) {
+                // sender vores host-name til express serveren 
+                const response = await fetch('http://localhost:3000/api/images', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                
+                if (response.status !== 200) {
+                    throw new Error('/ping returned status code ' + response.status);
+                }
+
+                const jsonBody = await response.json()
+                return jsonBody.images
+            }
+
+
+            async function main() {
+                const images = await getImages('localhost')
+                console.log(images)
+                // setting images to the html
+                const imageContainer = document.getElementById('images')
+                images.forEach(image => {
+                    const img = document.createElement('img')
+                    const path = `http://localhost:3000${image.url}`
+                    img.src = path
+                    img.className = 'img'
+                    imageContainer.appendChild(img)
+                })
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                // Your code to run since DOM is loaded and ready
+                main()
+            });
+
+        </script>
+    </head>
+    <body>
+        <body>
+            <p>My image blog</p>
+            <form method="post" onsubmit="window.location.pathname = '/'" action="api/images" id="form" enctype="multipart/form-data">
+                <input type="file" name="image" /><br /><br />
+                <input type="text" name="caption">
+                <button type="submit" name="upload">Upload</button>
+            </form>
+            <div>
+                <p>Images</p>
+                <div id="images">
+                </div>
+            </div>
+        </body>
+        </html>
+    </body>
+    
+</html>
