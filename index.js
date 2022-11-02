@@ -14,7 +14,8 @@ const db = new sqlite3.Database('./db.sqlite');
 
 db.serialize(function() {
     console.log('Creating database if it doesn\'t exist');
-    db.run('CREATE TABLE if not exists images (id integer primary key, url text not null, datetime integer)');
+    // Husk at ændre databasen til at indeholde nye kolonner
+    db.run('CREATE TABLE if not exists images (id integer primary key, url text not null, datetime integer)'); 
 });
 
 
@@ -24,24 +25,28 @@ app.post('/api/images', (req, res, next) => {
         const image = req.files.image;
         const caption = req.body.caption;
 
-        // Opgave 2 – Tilføj caption til databasen, og render den på frontenden
-                
         const pathName = '/images/' + image.name
-
-        console.log('Saving image to ' + __dirname + pathName);
-
-        // Flytta filen til images-mappen
+        
+        
+        // Flytter filen til images-mappen 
         image.mv(__dirname + pathName);
+        console.log('Saved image to ' + __dirname + pathName);
+        
+        // Opgave 2 – Tilføj 'caption' til databasen, og render den på frontenden
+        // ...
+        
 
+
+        // Tilføjer en række i databasen med url og tidspunkt
         db.serialize(function() {
             db.run('INSERT INTO images (url, datetime) VALUES (?, ?)', [pathName, Date.now()], function(err) {
                 if(err) {
                     console.error(err);
                     return res.status(500).json(err);
                 }
+                return res.send('ok')
             });
         });
-        return res.send('ok')
         
     } catch(err) {
       console.error(`Error `, err.message);

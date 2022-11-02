@@ -37,7 +37,7 @@
                 // Opgave 1 a - hent alle billeder fra serveren og console.log resultatet (hint: brug getImages())
                 
                 // Opgave 1 b - opret et image element for hvert billede og append det til DOM'en (se createImageElement)
-                
+
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {
@@ -50,7 +50,7 @@
     <body>
         <body>
             <p>My image blog</p>
-            <form method="post" onsubmit="window.location.pathname = '/'" action="api/images" id="form" enctype="multipart/form-data">
+            <form method="post" action="api/images" id="form" enctype="multipart/form-data">
                 <input type="file" name="image" /><br /><br />
                 <input type="text" name="caption">
                 <button type="submit" name="upload">Upload</button>
